@@ -8,19 +8,19 @@ parses the csv and adds it to a DynamoDB database. A SNS notification is sent as
 The DynamoDB is optimized for effecient querying based on Performer, Stage, and Time. 
 ### Partition Key: Performer
 This partition key ensures data for each performer is stored together, allowing effecient retreival of all performances by a specific performer.
-### Sort key: Date
-The sort key organizes performances chronologically for each performer. This structure supports efficient range queries for performances occurring within a given time frame.
+### Sort key: Start 
+The sort key organizes performances chronologically by start time for each performer. This structure supports efficient range queries for performances occurring within a given time frame.
 ### Global Secondary Index:
 ### Partition Key: Stage
 The GSI partition key allows querying performances by stage, regardless of performer.
-### Sort key: Start
-The sort key in the GSI enables efficient ordering and retreival of performances based on their start time within a stage.
+### Sort key: Date
+The sort key in the GSI enables efficient ordering and retreival of performances based on their date on that stage.
 Benefits of the Design
-Efficient Performer-Based Queries: Fetching all performances for a performer or those within a specific date range is optimized with the main table schema.
-Flexible Stage-Based Queries: The GSI supports efficient queries to list all performances on a particular stage, sorted by their start times.
+Efficient Performer-Based Queries: Fetching all performances for a performer or those within a specific time is optimized with the main table schema.
+Flexible Stage-Based Queries: The GSI supports efficient queries to list all performances on a particular stage, sorted by their dates.
 Query Flexibility: The table and GSI support all required queries:
-Retrieve all performances by a specific performer.
-List all performances on a stage, ordered by time.
+Retrieve all performances by a specific performer, ordered by time.
+List all performances on a stage, ordered by date.
 Fetch details of a specific performance by stage and start time.
 
 
