@@ -1,0 +1,62 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: CloudFormation Template for AWS Lambda S3, DynamoDB, and SNS Integration
+
+Resources:
+  # S3 Bucket
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: s3-csv-trigger-bucket
+
+  # DynamoDB Table
+  DynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: PerformerSchedule
+      AttributeDefinitions:
+        - AttributeName: Performer
+          AttributeType: S
+        - AttributeName: Start
+          AttributeType: S
+        - AttributeName: Stage
+          AttributeType: S
+        - AttributeName: Date
+          AttributeType: S
+      KeySchema:
+        - AttributeName: Performer
+          KeyType: HASH # Partition Key
+        - AttributeName: Start
+          KeyType: RANGE # Sort Key
+      GlobalSecondaryIndexes:
+        - IndexName: StageDateIndex
+          KeySchema:
+            - AttributeName: Stage
+              KeyType: HASH
+            - AttributeName: Date
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+      BillingMode: PAY_PER_REQUEST
+
+  # SNS Topic
+  SNSTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: CSVProcessingNotificationTopic
+
+  
+
+Outputs:
+  S3BucketName:
+    Value: !Ref S3Bucket
+    Description: Name of the S3 bucket
+
+  DynamoDBTableName:
+    Value: !Ref DynamoDBTable
+    Description: Name of the DynamoDB table
+
+  SNSTopicARN:
+    Value: !Ref SNSTopic
+    Description: ARN of the SNS topic
+
+
