@@ -16,12 +16,13 @@ The GSI partition key allows querying performances by stage, regardless of perfo
 ### Sort key: Date
 The sort key in the GSI enables efficient ordering and retreival of performances based on their date on that stage.
 Benefits of the Design
+
 Efficient Performer-Based Queries: Fetching all performances for a performer or those within a specific time is optimized with the main table schema.
 Flexible Stage-Based Queries: The GSI supports efficient queries to list all performances on a particular stage, sorted by their dates.
 Query Flexibility: The table and GSI support all required queries:
 Retrieve all performances by a specific performer, ordered by time.
 List all performances on a stage, ordered by date.
-Fetch details of a specific performance by stage and start time.
+
 
 
 ## Cost Analysis
